@@ -148,3 +148,100 @@ wday(my_bday, label = TRUE)
 week(my_bday)
 ```
 
+```{r}
+urchin_counts <- tribble(
+  ~date, ~species, ~size_mm,
+  "10/3/2020", "purple", 55,
+  "10/4/2020", "red", 48, 
+  "11/17/2020", "red", 63
+)
+
+urchin_ymd <- urchin_counts |> 
+  mutate(date = mdy(date)) |> 
+  mutate(year = year(date), 
+         month = month(date), 
+         day = day(date))
+
+class(urchin_ymd$date)
+```
+
+Find intervals between dates
+
+```{r}
+day1 <- ymd("2020-01-06")
+day2 <- ymd("2020-05-27")
+
+time_interval <- interval(day1, day2)
+class(time_interval)
+
+time_length(time_interval, "year")
+
+```
+
+## Stringr for working with strings
+### str_detect
+
+
+```{r}
+teddy_str <- "Teddy loves eating salmon and socks"
+
+str_detect(teddy_str, "love") # returns TRUE
+
+str_detect(teddy_str, "pup")
+
+food_vector <- c("burrito", "fish taco", "taco salad")
+
+str_detect(food_vector, "fish")
+```
+
+```{r}
+skywalker_sub <- starwars |>
+  filter(str_detect(name, pattern = "Skywalker"))
+
+darth_sub <- starwars |>
+  filter(str_detect(name, pattern = "Darth"))
+
+blue_eyes <- starwars |> 
+  filter(str_detect(eye_color, pattern = "blue"))
+```
+
+### str_replace 
+
+```{r}
+firewalkers <- starwars |>
+  mutate(new_name = str_replace(name, pattern = "Sky", replacement = "Fire"))
+```
+
+
+```{r}
+feedback <- c(" I ate  some  nachos", " Wednesday  morning  ")
+
+# takes off spaces on the ends of a string
+str_trim(feedback)
+
+# removes excess spaces between words/characters to only 1 space
+str_squish(feedback)
+
+# str_to* removes different letter cases (lower to upper, upper to lower, etc)
+str_to_lower(feedback)
+
+str_to_title(feedback)
+
+starwars_lc <- starwars |> 
+  mutate(name_lower = str_to_lower(name))
+```
+
+## case_when() in mutate()
+case_when(column 'logical statement' ~ "what to input", a different column 'logical statement' ~ "what to input", TRUE ~ "what everything else is designated")
+
+```{r}
+sw_robot <- starwars |>
+  mutate(robot_status = case_when(
+    species == "Droid" ~ "robot!", 
+    species == "Human" ~ "human!", 
+    TRUE ~ "This is something else"
+  ))
+```
+
+
+
