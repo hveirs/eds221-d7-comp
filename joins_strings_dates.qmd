@@ -4,21 +4,93 @@ format: html
 editor: visual
 ---
 
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+library(palmerpenguins)
+```
+
+
+
 ## Joins
+
+```{r}
+# Used "datapasta" from the "Addins" dropdown menu to copy and paste as a tribble
+
+animals <- tibble::tribble(
+             ~location,   ~species,  ~maturity,
+              "lagoon",   "bobcat",    "adult",
+               "bluff",   "coyote", "juvenile",
+               "creek",      "fox",    "adult",
+                "oaks", "squirrel", "juvenile",
+               "bluff",   "bobcat",    "adult"
+             )
+
+sites <- tibble::tribble(
+           ~location,      ~full_site_name, ~jurisdiction,
+             "beach",       "Goleta Beach",     "SB City",
+            "lagoon",        "UCSB Lagoon",        "UCSB",
+             "bluff",       "Ellwood Mesa",     "SB City",
+              "oaks", "Fremont Campground",        "USFS"
+           )
+
+```
 
 
 ### Full Join
 
+```{r}
+full_join_ex <- full_join(animals, sites, by = "location")
+```
+
 
 ### Left join
+
+```{r}
+left_join_ex <- left_join(animals, sites, by = "location")
+
+# Right joins?
+```
 
 
 ### Inner join
 
+```{r}
+inner_join_ex <- inner_join(animals, sites, by = "location")
+
+sites2 <- sites |> rename(loc = location)
+```
+
+### non matching unique identifiers/column names
+
+```{r}
+nonmatch <- full_join(animals, sites2, by = c("location" = "loc"))
+```
 
 ### Semi join
 
 
+```{r}
+semi_join_ex <- semi_join(animals, sites, by = "location")
+```
+
+### Anti join
+
+```{r}
+anti_join_ex <- anti_join(animals, sites, by = "location")
+```
+
+### Data wrangling Refreshers
+
+```{r}
+penguins_refresh <- penguins |> 
+  filter(island %in% c("Bisco", "Dream")) |> 
+  select(-year, -sex) |> 
+  mutate(body_mass_kg = body_mass_g / 1000) |> 
+  rename(location = island)
+  
+```
 
 
 
