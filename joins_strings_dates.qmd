@@ -9,6 +9,7 @@ library(tidyverse)
 library(janitor)
 library(here)
 library(palmerpenguins)
+library(lubridate)
 ```
 
 ## Joins
@@ -86,10 +87,64 @@ penguins_refresh <- penguins |>
   
 ```
 
+## Dates with Lubridate
 
-### Additional refresher
 
 ```{r}
+my_date<- "03-15-1998"
 
+class(my_date)
+# diff formats: mdy, ymd, dmy
+# lubridate converts dates to diff formats!
+lubridate::mdy(my_date)
+
+my_date2 <- "11/7/2003"
+
+lubridate::dmy(my_date2)
+
+my_date3 <- "08-Jun-1974"
+
+my_real_date <- lubridate::dmy(my_date3)
+class(my_real_date)
+
+```
+
+Note: make sure to use the right function (ymd, mdy, dmy, etc.) where the argument is the same format as the function
+I.E., for ymd, you need to input a date that is in year, month, day in any way, like: ymd(2020, August, 5) which will become: "2020-08-05" with a class "Date"
+
+
+```{r}
+time1 <- "08, 12, 2020, 11:18"
+
+time1_correct <- lubridate::mdy_hm(time1)
+time1_correct
+class(time1_correct)
+```
+
+```{r}
+# converting time zones
+lubridate::with_tz(time1_correct, "America/Los_Angeles")
+
+lubridate::with_tz(time1_correct, "America/New_York")
+
+time2 <- lubridate::ymd_hms(time1_correct)
+time2
+#pull individual components of the saved date:
+year(time2)
+day(time2)
+minute(time2)
+
+```
+
+```{r}
+teddy_bday <- lubridate::ymd("20170615")
+
+wday(teddy_bday, label = TRUE)
+
+my_bday <- lubridate::ymd("20000531")
+
+wday(my_bday, label = TRUE)
+
+week(my_bday)
 ```
 
