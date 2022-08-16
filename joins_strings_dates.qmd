@@ -11,8 +11,6 @@ library(here)
 library(palmerpenguins)
 ```
 
-
-
 ## Joins
 
 ```{r}
@@ -37,13 +35,11 @@ sites <- tibble::tribble(
 
 ```
 
-
 ### Full Join
 
 ```{r}
 full_join_ex <- full_join(animals, sites, by = "location")
 ```
-
 
 ### Left join
 
@@ -52,7 +48,6 @@ left_join_ex <- left_join(animals, sites, by = "location")
 
 # Right joins?
 ```
-
 
 ### Inner join
 
@@ -69,7 +64,6 @@ nonmatch <- full_join(animals, sites2, by = c("location" = "loc"))
 ```
 
 ### Semi join
-
 
 ```{r}
 semi_join_ex <- semi_join(animals, sites, by = "location")
@@ -93,4 +87,9 @@ penguins_refresh <- penguins |>
 ```
 
 
+### Additional refresher
+
+```{r}
+
+```
 
